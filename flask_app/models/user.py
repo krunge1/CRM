@@ -6,7 +6,7 @@ import re
 bcrypt = Bcrypt(app)
 
 class User:
-    db = "crm_schema"
+    db = "crm"
 
     def __init__(self,data):
         self.id = data['id']
