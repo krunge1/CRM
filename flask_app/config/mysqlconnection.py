@@ -34,8 +34,7 @@ class MySQLConnection:
                     self.connection.commit()
             except Exception as e:
                 # if the query fails the method will return FALSE
-                print("\nQUERY FAILED:",query)
-                print("\nSomething went wrong", e"\n")
+                print("Something went wrong", e)
                 return False
             finally:
                 # close the connection
