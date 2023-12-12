@@ -19,6 +19,8 @@ class User:
         self.user_status = data['user_status']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.companies = {}
+        self.contacts = {}
 
 #Create
     @classmethod

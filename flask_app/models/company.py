@@ -1,12 +1,10 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import app
 from flask import flash, session
-from flask_bcrypt import Bcrypt
 import re
-bcrypt = Bcrypt(app)
 from pprint import pprint
 
-from flask_app import user
+from flask_app.models import user, contact
 
 class Company:
     db = "crm"
@@ -64,9 +62,6 @@ class Company:
 
         LEFT JOIN contacts
         ON companies.id = contacts.company_id
-
-        LEFT JOIN users as users2
-        ON users2.id = contacts.user_id
         ;
         """
         results = connectToMySQL(cls.db).query_db(query)
@@ -92,17 +87,19 @@ class Company:
                     }
             account_representative = user.User(account_rep_data)
             this_company.account_representative = account_representative
-            if results[i]['users2.id'] is not None:
+            if results[i]['contacts.id'] is not None:
                 contact_data = {
-                    "id": results[i]['users2.id'],
-                    "first_name": results[i]['users2.first_name'],
-                    "last_name": results[i]['users2.last_name'],
-                    "email": results[i]['users2.email'],
-                    "phone_number" : results[i]['users2.phone_number'],
-                    "address" : results[i]['users2.address'],
-                    "city" : results[i]['users2.city'],
-                    "zip_code" : results[i]['users2.zip_code'],
-                    "password": results[i]['users2.password'],
+                    "id": results[i]['contacts.id'],
+                    "first_name": results[i]['contacts.first_name'],
+                    "last_name": results[i]['contacts.last_name'],
+                    "email": results[i]['contacts.email'],
+                    "phone_number" : results[i]['contacts.phone_number'],
+                    "address" : results[i]['contacts.address'],
+                    "city" : results[i]['contacts.city'],
+                    "state" : results[i]['state'],
+                    "zip_code" : results[i]['contacts.zip_code'],
+                    "user_id" : results[i]['user_id'],
+                    "company_id" : results[i]['company_id'],
                     "created_at": results[i]['users2.created_at'],
                     "updated_at": results[i]['users2.updated_at'],
                     }
