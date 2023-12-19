@@ -68,57 +68,55 @@ class Contact:
             is_valid = False
         return is_valid
 
-    #Read
-    # @classmethod # Get all contacts
-    # def get_all_contacts(cls):
-    #     query = """SELECT * from contacts
-    #     LEFT JOIN users
-    #     ON contacts.user_id = users.id
+    # Read
+    @classmethod # Get all contacts
+    def get_all_contacts(cls):
+        query = """SELECT * from contacts
+        LEFT JOIN users
+        ON contacts.user_id = users.id
 
-    #     LEFT JOIN companies
-    #     ON contacts.id = companies.contact_id
-    #     ;
-    #     """
-    #     results = connectToMySQL(cls.db).query_db(query)
-    #     if not results:
-    #         return []
-    #     all_companies = []
-    #     for i in range(len(results)):
-    #         if results[i]["id"] != results[i-1]["id"] or i == 0:
-    #             this_company = cls(results[i])
-    #             all_companies.append(this_company)
+        LEFT JOIN companies
+        ON contacts.id = companies.contact_id
+        ;
+        """
+        results = connectToMySQL(cls.db).query_db(query)
+        if not results:
+            return []
+        all_contacts = []
+        for i in range(len(results)):
+            if results[i]["id"] != results[i-1]["id"] or i == 0:
+                this_contact = cls(results[i])
+                all_contacts.append(this_contact)
 
-    #         account_rep_data = {
-    #                 "id": results[i]['users.id'],
-    #                 "user_name" : results[i]['user_name'],
-    #                 "first_name": results[i]['first_name'],
-    #                 "last_name": results[i]['last_name'],
-    #                 "email": results[i]['email'],
-    #                 "password": results[i]['password'],
-    #                 "user_level" : results[i]['user_level'],
-    #                 "user_status" : results[i]['user_status'],
-    #                 "created_at": results[i]['users.created_at'],
-    #                 "updated_at": results[i]['users.updated_at'],
-    #                 }
-    #         account_representative = user.User(account_rep_data)
-    #         this_company.account_representative = account_representative
-    #         if results[i]['users2.id'] is not None:
-    #             contact_data = {
-    #                 "id": results[i]['users2.id'],
-    #                 "first_name": results[i]['users2.first_name'],
-    #                 "last_name": results[i]['users2.last_name'],
-    #                 "email": results[i]['users2.email'],
-    #                 "phone_number" : results[i]['users2.phone_number'],
-    #                 "address" : results[i]['users2.address'],
-    #                 "city" : results[i]['users2.city'],
-    #                 "zip_code" : results[i]['users2.zip_code'],
-    #                 "password": results[i]['users2.password'],
-    #                 "created_at": results[i]['users2.created_at'],
-    #                 "updated_at": results[i]['users2.updated_at'],
-    #                 }
-    #             contact = user.User(contact_data)
-    #             this_company.contacts.append(contact)
-    #     return all_companies
+            account_rep_data = {
+                    "id": results[i]['users.id'],
+                    "user_name" : results[i]['user_name'],
+                    "first_name": results[i]['first_name'],
+                    "last_name": results[i]['last_name'],
+                    "email": results[i]['email'],
+                    "password": results[i]['password'],
+                    "user_level" : results[i]['user_level'],
+                    "user_status" : results[i]['user_status'],
+                    "created_at": results[i]['users.created_at'],
+                    "updated_at": results[i]['users.updated_at'],
+                    }
+            account_representative = user.User(account_rep_data)
+            this_contact.user_id = account_representative
+            company_data = {
+                "id": results[i]['companies.id'],
+                "name": results[i]['companies.name'],
+                "address" : results[i]['companies.address'],
+                "city" : results[i]['companies.city'],
+                "state" : results[i]['companies.state'],
+                "zip_code" : results[i]['companies.zip_code'],
+                "password": results[i]['companies.password'],
+                "created_at": results[i]['companies.created_at'],
+                "updated_at": results[i]['companies.updated_at'],
+                "user_id" : results[i]['companies.user_id']
+                }
+            this_company = company.Company(company_data)
+            this_contact.company_id = this_company
+        return all_contacts
 
     #Update
     #Delete
