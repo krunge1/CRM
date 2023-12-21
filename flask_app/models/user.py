@@ -98,5 +98,10 @@ class User:
         if result:
             result = cls(result[0])
         return result
+    
+    @classmethod
+    def get_all_users(cls):
+        query = """SELECT *
+        FROM users;"""
 #Update
 #Delete

@@ -32,6 +32,10 @@ def logout():
     session.clear()
     return redirect('/')
 
+@app.route('/dashboard')
+def viewAll():
+    return render_template('dashboard.html', users = user.User.get_all_users())
+
 #Update
 #Method to update user profile
 
